@@ -16,11 +16,11 @@ parser = argparse.ArgumentParser(description='Extract e-mail headers')
 parser.add_argument('filename', metavar='<FILENAME>', nargs=1,
         help='file to process')
 
-parser.add_argument('-addr', metavar='To/Cc/From/resent-to', 
+parser.add_argument('--addr', metavar='To/Cc/From/resent-to', 
         help='an address header, will be post processed and stripped')
 
 #make it support a  comma separated list of headers to extract
-parser.add_argument('-hdr', metavar='HEADER-STRING', 
+parser.add_argument('--hdr', metavar='HEADER-STRING', 
         help='extracts a raw header from the file')
 
 args = parser.parse_args()
