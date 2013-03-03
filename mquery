@@ -1,8 +1,8 @@
 #!/usr/bin/python
+import os
 import email
 import argparse
 from email.utils import getaddresses
-
 
 def extract_and_format(headers):
     hdrs = []
@@ -36,3 +36,10 @@ if args.hdr:
     for h in hdrs:
         print " ".join(msg.get_all(h))
     
+# no arguments supplied, dump all headers but remove \n\t from data and truncate to fit terminal
+if not args.hdr and not args.addr:
+    rows, columns = os.popen('stty size', 'r').read().split()
+    p2w = int(columns) - ( 25 + 3 )
+    for item in msg.items():
+        print "{0:25} : {1:60}".format(item[0],item[1].replace("\n\t","")[:p2w])
+
