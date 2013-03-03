@@ -24,7 +24,6 @@ parser.add_argument('--hdr', metavar='HEADER-STRING',
         help='extracts a raw header from the file')
 
 args = parser.parse_args()
-print args
 
 msg = email.message_from_file(open(args.filename[0]))
 
