@@ -1,0 +1,39 @@
+#!/usr/bin/python
+import email
+import argparse
+from email.utils import getaddresses
+
+
+def extract_and_format(headers):
+    hdrs = []
+    for header in headers:
+        hdrs.append(msg.get_all(header,[]))
+    flat = [item for sublist in hdrs for item in sublist] 
+    return getaddresses(flat)
+
+parser = argparse.ArgumentParser(description='Extract e-mail headers')
+
+parser.add_argument('filename', metavar='<FILENAME>', nargs=1,
+        help='file to process')
+
+parser.add_argument('-addr', metavar='To/Cc/From/resent-to', 
+        help='an address header, will be post processed and stripped')
+
+#make it support a  comma separated list of headers to extract
+parser.add_argument('-hdr', metavar='HEADER-STRING', 
+        help='extracts a raw header from the file')
+
+args = parser.parse_args()
+print args
+
+msg = email.message_from_file(open(args.filename[0]))
+
+if args.addr :
+    addresses = extract_and_format(args.addr.split(','))
+    print " ".join(map(lambda x: x[1],addresses))
+
+if args.hdr:
+    hdrs = args.hdr.split(',')
+    for h in hdrs:
+        print " ".join(msg.get_all(h))
+    
